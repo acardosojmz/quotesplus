@@ -1,0 +1,32 @@
+package com.example.quoteplus
+
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.ui.Modifier
+import com.example.quoteplus.presentation.MainNavigation
+import com.example.quoteplus.presentation.theme.QuotePlusTheme
+import com.example.quoteplus.presentation.viewmodel.LoginViewModel
+
+class MainActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
+        setContent {
+            QuotePlusTheme {
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
+                    //val loginViewModel: LoginViewModel = hiltViewModel()
+                    MainNavigation(loginViewModel = LoginViewModel())
+                }
+            }
+        }
+    }
+}
+
