@@ -2,13 +2,21 @@ package com.example.quoteplus.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.quoteplus.data.model.LoginRequest
 import com.example.quoteplus.domain.model.LoginUiState
 import com.example.quoteplus.domain.model.UserModel
+import com.example.quoteplus.domain.usecase.LoginUserUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class LoginViewModel : ViewModel() {
+@HiltViewModel
+class LoginViewModel @Inject constructor(
+    private val loginUserUseCase: LoginUserUseCase,
+    ) : ViewModel() {
     private val _uiState = MutableStateFlow(LoginUiState())
     val uiState: StateFlow<LoginUiState> = _uiState
 
@@ -22,17 +30,19 @@ class LoginViewModel : ViewModel() {
 
     fun login() {
         viewModelScope.launch {
-            val user = authenticate(_uiState.value.account, _uiState.value.password)
-            _uiState.value = _uiState.value.copy(user = user, isLoggedIn = user != null)
+            val userLoginResponse = loginUserUseCase.login(LoginRequest(account =_uiState.value.account,
+                password = _uiState.value.password)).first()
+            val token = userLoginResponse.data
+            if (token.isEmpty()){
+                _uiState.value = _uiState.value.copy(user = null, isLoggedIn = false)
+            } else {
+                val user = UserModel(id=0, account = token,
+                    password = _uiState.value.password)
+                _uiState.value = _uiState.value.copy(user = user, isLoggedIn = true )
+
+            }
         }
     }
 
-    private suspend fun authenticate(account: String, password: String): UserModel? {
-        // Simular una autenticación
-        return if (account == "user" && password == "password") {
-            UserModel(id = 1, account = account, password = password)
-        } else {
-            null
-        }
-    }
+
 }

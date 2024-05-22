@@ -8,11 +8,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.quoteplus.presentation.MainNavigation
 import com.example.quoteplus.presentation.theme.QuotePlusTheme
 import com.example.quoteplus.presentation.viewmodel.LoginViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
-class MainActivity : ComponentActivity() {
+@AndroidEntryPoint
+class MainActivity : ComponentActivity()  {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -22,8 +25,8 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    //val loginViewModel: LoginViewModel = hiltViewModel()
-                    MainNavigation(loginViewModel = LoginViewModel())
+                    val loginViewModel: LoginViewModel = hiltViewModel()
+                    MainNavigation(loginViewModel = loginViewModel)
                 }
             }
         }
