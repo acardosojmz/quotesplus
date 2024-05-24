@@ -26,7 +26,8 @@ import com.example.quoteplus.presentation.viewmodel.LoginViewModel
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun LoginScreen(drawerState: DrawerState, viewModel: LoginViewModel){
+fun LoginScreen(drawerState: DrawerState,
+                viewModel: LoginViewModel){
     val uiState by viewModel.uiState.collectAsState()
     Scaffold(
         topBar = { CustomAppBar(
@@ -46,6 +47,13 @@ fun LoginScreen(drawerState: DrawerState, viewModel: LoginViewModel){
                 Text(text = "Welcome, ${uiState.user?.account}!")
             } else
                 {
+                    if (uiState.user?.account=="notfound") {
+                        Text(
+                            text = "Usuario o contraseña incorrecta",
+                            color = Color.Red
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(8.dp))
                     OutlinedTextField(
                         value = uiState.account,
                         onValueChange = { viewModel.onAccountChange(it) },

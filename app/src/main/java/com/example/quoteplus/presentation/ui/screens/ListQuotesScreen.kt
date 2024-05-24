@@ -1,33 +1,37 @@
 package com.example.quoteplus.presentation.ui.screens
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.DrawerState
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import com.example.quoteplus.presentation.ui.composables.CustomAppBar
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.quoteplus.domain.model.QuoteUiState
+import com.example.quoteplus.presentation.ui.composables.CardText
+import com.example.quoteplus.presentation.ui.composables.CircularProgressBar
+import com.example.quoteplus.presentation.viewmodel.ListQuoteViewModel
+import androidx.compose.ui.platform.LocalLifecycleOwner
+import com.example.quoteplus.presentation.ui.composables.QuoteList
 
 @Composable
-fun ListQuotesScreen(drawerState: DrawerState){
-    Scaffold(
-        topBar = { CustomAppBar(
-            drawerState = drawerState,
-            title = "List Quotes",
-            backgroundColor = Color.Green
-        ) }
-    ) { paddingValues ->
-        Column(
-            modifier = Modifier.fillMaxSize().padding(paddingValues),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
-            Text(text = "List quotes")
+fun ListQuotesScreen(
+    drawerState: DrawerState,
+    viewModel: ListQuoteViewModel,
+    listQuotesOnClick: () -> Unit,
+) {
+    val lifecycleOwner = LocalLifecycleOwner.current
+
+    val quoteState by viewModel.uiState.collectAsStateWithLifecycle(
+        initialValue = QuoteUiState.Loading, lifecycleOwner= lifecycleOwner)
+
+    when (quoteState) {
+        is QuoteUiState.Loading -> CircularProgressBar(strokeWidth = 4.dp)
+        is QuoteUiState.Data -> QuoteList(quotes = (quoteState as QuoteUiState.Data).list)
+        is QuoteUiState.Error -> CardText( fontSize = 16.sp, text = "ERROR:  " +
+                (quoteState as QuoteUiState.Error), TextAlign.Center)
+        QuoteUiState.Init -> {
+
         }
     }
 }

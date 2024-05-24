@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.quoteplus.presentation.MainNavigation
 import com.example.quoteplus.presentation.theme.QuotePlusTheme
+import com.example.quoteplus.presentation.viewmodel.ListQuoteViewModel
 import com.example.quoteplus.presentation.viewmodel.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -26,7 +27,9 @@ class MainActivity : ComponentActivity()  {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     val loginViewModel: LoginViewModel = hiltViewModel()
-                    MainNavigation(loginViewModel = loginViewModel)
+                    val listQuoteViewModel: ListQuoteViewModel = hiltViewModel()
+                    MainNavigation(loginViewModel = loginViewModel,
+                        listQuoteViewModel = listQuoteViewModel )
                 }
             }
         }

@@ -1,5 +1,6 @@
 package com.example.quoteplus.core.di
 
+import com.example.quoteplus.data.remote.QuoteService
 import com.example.quoteplus.data.remote.UserService
 import dagger.Module
 import dagger.Provides
@@ -22,7 +23,16 @@ class NetworkModule {
             .create(UserService::class.java)
     }
 
+    @Singleton
+    @Provides
+    fun provideQuoteService(): QuoteService {
+        return Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(QuoteService::class.java)
+    }
     companion object {
-        const val BASE_URL = "http://10.1.17.88:2024/api/v1/"
+        const val BASE_URL = "http://10.1.2.234:2024/api/v1/"
     }
 }

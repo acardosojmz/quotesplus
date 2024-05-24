@@ -35,6 +35,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.quoteplus.presentation.ui.screens.AddQuoteScreen
 import com.example.quoteplus.presentation.ui.screens.ListQuotesScreen
 import com.example.quoteplus.presentation.ui.screens.LoginScreen
+import com.example.quoteplus.presentation.viewmodel.ListQuoteViewModel
 import com.example.quoteplus.presentation.viewmodel.LoginViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -99,7 +100,8 @@ fun MainNavigation(
     navController: NavHostController = rememberNavController(),
     coroutineScope: CoroutineScope = rememberCoroutineScope(),
     drawerState: DrawerState = rememberDrawerState(initialValue = DrawerValue.Closed),
-    loginViewModel: LoginViewModel
+    loginViewModel: LoginViewModel,
+    listQuoteViewModel: ListQuoteViewModel
 ) {
     ModalNavigationDrawer(
         drawerState = drawerState,
@@ -120,7 +122,7 @@ fun MainNavigation(
                 LoginScreen(drawerState, loginViewModel)
             }
             composable(MainRoute.GetQuotes.name) {
-                ListQuotesScreen(drawerState)
+                ListQuotesScreen(drawerState, listQuoteViewModel) {}
             }
             composable(MainRoute.AddQuote.name) {
                 AddQuoteScreen(drawerState)

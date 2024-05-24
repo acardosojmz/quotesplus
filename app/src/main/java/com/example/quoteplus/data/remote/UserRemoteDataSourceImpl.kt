@@ -10,7 +10,8 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class UserRemoteDataSourceImpl @Inject constructor(private val userService: UserService): UserRemoteDataSource {
+class UserRemoteDataSourceImpl @Inject constructor(
+    private val userService: UserService): UserRemoteDataSource {
     override suspend fun login(loginRequest: LoginRequest): Flow<UserLoginResponse> {
 
         //val token = "abc1234"

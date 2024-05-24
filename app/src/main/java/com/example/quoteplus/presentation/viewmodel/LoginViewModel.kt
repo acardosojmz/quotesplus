@@ -34,7 +34,7 @@ class LoginViewModel @Inject constructor(
                 password = _uiState.value.password)).first()
             val token = userLoginResponse.data
             if (token.isEmpty()){
-                _uiState.value = _uiState.value.copy(user = null, isLoggedIn = false)
+                _uiState.value = _uiState.value.copy(user = UserModel(id=0, account = "notfound", password="notfound"), isLoggedIn = false)
             } else {
                 val user = UserModel(id=0, account = token,
                     password = _uiState.value.password)
