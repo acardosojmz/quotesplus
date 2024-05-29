@@ -1,5 +1,7 @@
 package com.example.quoteplus.presentation.viewmodel
 
+import android.annotation.SuppressLint
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.quoteplus.data.model.QuoteResponse
@@ -8,6 +10,7 @@ import com.example.quoteplus.domain.model.QuoteModel
 import com.example.quoteplus.domain.model.QuoteUiState
 import com.example.quoteplus.domain.usecase.GetQuotesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -25,6 +28,7 @@ class ListQuoteViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
+
             getQuotes()
         }
     }

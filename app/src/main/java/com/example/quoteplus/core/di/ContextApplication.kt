@@ -1,5 +1,6 @@
 package com.example.quoteplus.core.di
 
+import android.app.Application
 import android.content.Context
 import com.example.quoteplus.QuotesApp
 import dagger.Module

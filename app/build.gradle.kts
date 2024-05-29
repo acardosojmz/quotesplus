@@ -63,9 +63,12 @@ dependencies {
     implementation(libs.androidx.material3)
     // -----------------------------
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.lifecycle.runtime.compose.android)
+
+    implementation(libs.androidx.datastore.core.android)
+    implementation("androidx.datastore:datastore-preferences:1.1.1")
 
     implementation("com.google.dagger:hilt-android:2.51")
-    implementation(libs.androidx.lifecycle.runtime.compose.android)
     kapt ("com.google.dagger:hilt-android-compiler:2.51")
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
 
