@@ -1,9 +1,12 @@
 package com.example.quoteplus.presentation.viewmodel
 
 import android.annotation.SuppressLint
+import android.app.Application
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.quoteplus.data.local.DataStoreManager
 import com.example.quoteplus.data.model.QuoteResponse
 import com.example.quoteplus.domain.model.LoginUiState
 import com.example.quoteplus.domain.model.QuoteModel
@@ -28,15 +31,19 @@ class ListQuoteViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-
             getQuotes()
         }
     }
-    private suspend fun getQuotes() {
+
+
+    suspend fun getQuotes() {
         _uiState.value = QuoteUiState.Loading
 
         viewModelScope.launch {
-            val uiState = getQuotesUseCase.getQuotes().first()
+            val token = DataStoreManager.token.first()
+            Log.d("TOKEN IN VIEWMODEL: ", token)
+            val uiState = getQuotesUseCase.getQuotes("Bearer $token").first()
+            Log.d("DATA:", uiState.data.toString())
             notifyDataState(uiState.data)
             }
 

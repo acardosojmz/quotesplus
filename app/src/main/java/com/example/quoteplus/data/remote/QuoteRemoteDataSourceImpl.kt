@@ -13,9 +13,9 @@ class QuoteRemoteDataSourceImpl @Inject constructor(
    private val quoteService: QuoteService
 
 ): QuoteRemoteDataSource {
-    override suspend fun getQuotes(): Flow<QuoteResponse> {
+    override suspend fun getQuotes(token: String): Flow<QuoteResponse> {
         try{
-            val quoteResponse =  quoteService.getQuotes()
+            val quoteResponse =  quoteService.getQuotes(token)
             return flow{emit(quoteResponse)}
         } catch (ex: Exception){
             Log.e("ERROR:", ex.message.toString())

@@ -33,6 +33,6 @@ class NetworkModule {
             .create(QuoteService::class.java)
     }
     companion object {
-        const val BASE_URL = "http://10.1.2.251:2024/api/v1/"
+        const val BASE_URL = "http://10.1.15.26:2024/api/v1/"
     }
 }

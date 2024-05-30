@@ -7,7 +7,8 @@ import javax.inject.Inject
 
 class QuoteRepositoryImpl @Inject constructor(
     private val quoteDataSource: QuoteRemoteDataSource): QuoteRepository {
-    override suspend fun  getQuotes(): Flow<QuoteResponse> {
-        return quoteDataSource.getQuotes()
+    override suspend fun  getQuotes(token: String): Flow<QuoteResponse> {
+        return quoteDataSource.getQuotes(token)
     }
 }
+

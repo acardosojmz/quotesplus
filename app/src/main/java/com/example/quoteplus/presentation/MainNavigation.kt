@@ -28,6 +28,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -38,6 +39,8 @@ import com.example.quoteplus.presentation.ui.screens.LoginScreen
 import com.example.quoteplus.presentation.viewmodel.ListQuoteViewModel
 import com.example.quoteplus.presentation.viewmodel.LoginViewModel
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 data class DrawerMenu(
@@ -95,6 +98,7 @@ private fun DrawerContent(
     }
 }
 
+@OptIn(DelicateCoroutinesApi::class)
 @Composable
 fun MainNavigation(
     navController: NavHostController = rememberNavController(),
@@ -122,7 +126,11 @@ fun MainNavigation(
                 LoginScreen(drawerState, loginViewModel)
             }
             composable(MainRoute.GetQuotes.name) {
-                ListQuotesScreen(drawerState, listQuoteViewModel) {}
+                ListQuotesScreen(drawerState, listQuoteViewModel) {
+                    GlobalScope.launch {
+                        listQuoteViewModel.getQuotes()
+                    }
+                }
             }
             composable(MainRoute.AddQuote.name) {
                 AddQuoteScreen(drawerState)

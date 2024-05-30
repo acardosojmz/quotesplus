@@ -21,7 +21,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor (
-    private val context: Application,
     private val loginUserUseCase: LoginUserUseCase,
 ) : ViewModel() {
 
@@ -46,9 +45,7 @@ class LoginViewModel @Inject constructor (
                     user = UserModel(id=0, account = "notfound", password="notfound"),
                     isLoggedIn = false)
             } else {
-                val context =  getApplication(context).applicationContext
-                val dataStoreManager = DataStoreManager(context = context)
-                dataStoreManager.saveTokenToDataStore(token)
+                DataStoreManager.saveTokenToDataStore(token)
                 val user = UserModel(id=0, account = _uiState.value.account,
                     password = _uiState.value.password)
                 _uiState.value = _uiState.value.copy(user = user, isLoggedIn = true )
