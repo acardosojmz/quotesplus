@@ -8,8 +8,8 @@ import javax.inject.Inject
 class GetQuotesUseCase @Inject constructor(
     private val quoteRepository: QuoteRepository
 ){
-    suspend fun getQuotes(token: String): Flow<QuoteResponse> {
-        return  quoteRepository.getQuotes(token)
+    suspend fun getQuotes(): Flow<QuoteResponse> {
+        return  quoteRepository.getQuotes()
     }
 
 

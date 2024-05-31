@@ -16,43 +16,31 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 import javax.inject.Singleton
 
-@SuppressLint("StaticFieldLeak")
+
 object DataStoreManager {
-
-    private const val USERDATASTORE = "quotes"
-    private lateinit var context: Context
-
-    // Preferences DataStore instance
-    private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = USERDATASTORE)
-
-    // Preference key
-    val TOKEN = stringPreferencesKey("TOKEN")
-
-    // Method to initialize context
-    fun initialize(context: Context) {
-        this.context = context.applicationContext
-    }
+    private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "quotes")
+    private val TOKEN = stringPreferencesKey("TOKEN")
 
     // Method to save token to DataStore
-    suspend fun saveTokenToDataStore(token: String) {
-        context.dataStore.edit {
-            it[TOKEN] = token
+    suspend fun saveTokenToDataStore(context: Context, token: String) {
+        context.dataStore.edit { preferences ->
+            preferences[TOKEN] = token
         }
     }
 
     // Flow to get the token from DataStore
-    val token: Flow<String>
-        get() = context.dataStore.data
+    fun getToken(context: Context): Flow<String> {
+        return context.dataStore.data
             .catch { exception ->
                 if (exception is IOException) {
-                    Log.d("TOKEN: ", "EMPTY")
                     emit(emptyPreferences())
                 } else {
-                    exception.message?.let { Log.d("ERROR TOKEN: ", it) }
-
+                    Log.e("DataStoreManager", "Error reading token: ${exception.message}")
+                    throw exception
                 }
-            }.map { preferences ->
-                Log.d("TOKEN: ", "Mapeando token")
+            }
+            .map { preferences ->
                 preferences[TOKEN] ?: ""
             }
+    }
 }

@@ -3,6 +3,7 @@ package com.example.quoteplus.presentation.ui.screens
 import androidx.compose.material3.DrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -18,7 +19,6 @@ import com.example.quoteplus.presentation.ui.composables.QuoteList
 fun ListQuotesScreen(
     drawerState: DrawerState,
     viewModel: ListQuoteViewModel,
-    listQuotesOnClick: () -> Unit,
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current
 

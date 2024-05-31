@@ -27,6 +27,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
@@ -107,6 +108,7 @@ fun MainNavigation(
     loginViewModel: LoginViewModel,
     listQuoteViewModel: ListQuoteViewModel
 ) {
+    val context = LocalContext.current
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
@@ -126,11 +128,8 @@ fun MainNavigation(
                 LoginScreen(drawerState, loginViewModel)
             }
             composable(MainRoute.GetQuotes.name) {
-                ListQuotesScreen(drawerState, listQuoteViewModel) {
-                    GlobalScope.launch {
-                        listQuoteViewModel.getQuotes()
-                    }
-                }
+                ListQuotesScreen(drawerState, listQuoteViewModel)
+
             }
             composable(MainRoute.AddQuote.name) {
                 AddQuoteScreen(drawerState)

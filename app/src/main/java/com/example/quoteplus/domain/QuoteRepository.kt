@@ -4,5 +4,5 @@ import com.example.quoteplus.data.model.QuoteResponse
 import kotlinx.coroutines.flow.Flow
 
 interface QuoteRepository {
-    suspend  fun getQuotes(token: String): Flow<QuoteResponse>
+    suspend  fun getQuotes(): Flow<QuoteResponse>
 }

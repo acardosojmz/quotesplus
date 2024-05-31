@@ -27,7 +27,7 @@ class MainActivity : ComponentActivity()  {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    DataStoreManager.initialize(this)
+
                     val loginViewModel: LoginViewModel = hiltViewModel()
                     val listQuoteViewModel: ListQuoteViewModel = hiltViewModel()
                     MainNavigation(loginViewModel = loginViewModel,
